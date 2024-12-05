@@ -3,10 +3,11 @@ const ctx = canvas.getContext('2d');
 
 // Laad afbeeldingen
 const mandImg = new Image();
-mandImg.src = 'mand2.png'; 
+mandImg.src = 'Images/mand2.png';
 
 const appelImg = new Image();
-appelImg.src = 'appel.png'; 
+appelImg.src = 'Images/appel.png';
+
 
 let mand = {
     x: canvas.width / 2 - 20,
@@ -33,18 +34,11 @@ const timeBarWidth = canvas.width - 20;
 const timeBarHeight = 10; 
 const timeDecreaseAmount = 10; 
 
-// Beweeg de mand
 function movemand() {
     mand.x += mand.dx;
-
-
-    if (mand.x < 0) {
-        mand.x = 0;
-    } else if (mand.x + mand.width > canvas.width) {
-        mand.x = canvas.width - mand.width;
-    }
+    if (mand.x < 0) mand.x = 0;
+    if (mand.x + mand.width > canvas.width) mand.x = canvas.width - mand.width;
 }
-
 
 function drawmand() {
     ctx.drawImage(mandImg, mand.x, mand.y, mand.width, mand.height);
@@ -54,11 +48,9 @@ function drawappel() {
     ctx.drawImage(appelImg, appel.x, appel.y, appel.size, appel.size);
 }
 
-// Bewegen van het appel
 function moveappel() {
     appel.y += appel.speed;
 
-    
     if (
         appel.y + appel.size > mand.y &&
         appel.x > mand.x &&
@@ -69,10 +61,9 @@ function moveappel() {
             appel.speed++;
         }
         resetappel();
-        remainingTime = Math.min(remainingTime + 500, maxTime); // Voeg tijd toe, maar niet meer dan maxTime
+        remainingTime = Math.min(remainingTime + 500, maxTime);
     }
 
-   
     if (appel.y > canvas.height) {
         resetappel();
     }
@@ -83,13 +74,11 @@ function resetappel() {
     appel.y = 0;
 }
 
-
 function drawScore() {
     ctx.font = '16px Arial';
     ctx.fillStyle = '#0095DD';
     ctx.fillText('Score: ' + score, 8, 20);
 }
-
 
 function drawTimeBar() {
     const barWidth = (remainingTime / maxTime) * timeBarWidth;
@@ -103,20 +92,17 @@ function clearCanvas() {
 
 function update() {
     clearCanvas();
-
     movemand();
     moveappel();
-
     drawmand();
     drawappel();
     drawScore();
     drawTimeBar();
 
-    remainingTime -= timeDecreaseAmount; 
-
+    remainingTime -= timeDecreaseAmount;
     if (remainingTime <= 0) {
-        alert('spel Over! Your score: ' + score);
-        document.location.reload(); 
+        alert('Game Over! Your score: ' + score);
+        document.location.reload();
     } else {
         requestAnimationFrame(update);
     }
@@ -144,9 +130,8 @@ function keyUp(e) {
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
 
-
 mandImg.onload = () => {
     appelImg.onload = () => {
         update();
-    }
+    };
 };
