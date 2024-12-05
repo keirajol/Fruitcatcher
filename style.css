@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+canvas {
+    border: 2px solid #000;
+    background-color: #59b354;
+}
+
+h1 {
+    color: lightpink;
+}
+
