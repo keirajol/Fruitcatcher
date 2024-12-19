@@ -11,10 +11,10 @@ body {
 canvas {
     border: 2px solid #000;
     background-color: #59b354;
-    width: 150px;
+    width: 300px;
 }
 
 h1 {
     color: lightpink;
-    font-size: 100px;
+    font-size: 40px;
 }
