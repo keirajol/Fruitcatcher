@@ -1,13 +1,11 @@
 const canvas = document.getElementById('spelCanvas');
 const ctx = canvas.getContext('2d');
 
-// Laad afbeeldingen
 const mandImg = new Image();
 mandImg.src = 'Images/mand2.png';
 
 const appelImg = new Image();
 appelImg.src = 'Images/appel.png';
-
 
 let mand = {
     x: canvas.width / 2 - 20,
@@ -33,6 +31,24 @@ let remainingTime = maxTime;
 const timeBarWidth = canvas.width - 20; 
 const timeBarHeight = 10; 
 const timeDecreaseAmount = 10; 
+
+let imagesLoaded = 0;
+
+function checkImagesLoaded() {
+    if (imagesLoaded === 2) {
+        update(); 
+    }
+}
+
+mandImg.onload = () => {
+    imagesLoaded++;
+    checkImagesLoaded();
+};
+
+appelImg.onload = () => {
+    imagesLoaded++;
+    checkImagesLoaded();
+};
 
 function movemand() {
     mand.x += mand.dx;
@@ -129,9 +145,3 @@ function keyUp(e) {
 
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
-
-mandImg.onload = () => {
-    appelImg.onload = () => {
-        update();
-    };
-};
