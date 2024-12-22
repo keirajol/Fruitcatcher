@@ -93,7 +93,7 @@ function resetappel() {
 function drawScore() {
     ctx.font = '16px Arial';
     ctx.fillStyle = '#0095DD';
-    ctx.fillText('Score: ' + score, 8, 20);
+    ctx.fillText('Score: ' + score, 8, 40);
 }
 
 function drawTimeBar() {
@@ -117,8 +117,8 @@ function update() {
 
     remainingTime -= timeDecreaseAmount;
     if (remainingTime <= 0) {
-        alert('Game Over! Your score: ' + score);
-        document.location.reload();
+        toonMelding('Je score is: ' + score);
+        
     } else {
         requestAnimationFrame(update);
     }
@@ -145,3 +145,32 @@ function keyUp(e) {
 
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
+
+function toonMelding(bericht) {
+    const meldingElement = document.createElement('div');
+    meldingElement.className = 'melding-blok';
+    meldingElement.innerText = bericht;
+  
+    document.body.appendChild(meldingElement);
+  
+    startConfetti();
+  
+    setTimeout(() => {
+      meldingElement.remove();
+    }, 6000);
+  }
+  
+  function startConfetti() {
+    const colors = ['#FF69B4', '#FFC0CB', '#FFD700', '#32CD32', '#1E90FF']; // Roze, goud, groen, blauw
+    for (let i = 0; i < 100; i++) {
+        let confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.animationDelay = `${Math.random() * 2}s`;
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 6000);
+    }
+}
+
