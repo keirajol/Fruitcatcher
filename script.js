@@ -1,5 +1,5 @@
 const canvas = document.getElementById('spelCanvas');
-const ctx = canvas.getContext('2d');
+const context = canvas.getContext('2d');
 
 const mandImg = new Image();
 mandImg.src = 'Images/mand2.png';
@@ -25,7 +25,8 @@ let appel = {
 };
 
 let score = 0;
-const speedIncreaseInterval = 3; 
+let highscore = localStorage.getItem('highscore') ? parseInt(localStorage.getItem('highscore')) : 0;
+const speedVerhogen = 3; 
 const maxTime = 10000; 
 let remainingTime = maxTime; 
 const timeBarWidth = canvas.width - 20; 
@@ -57,11 +58,11 @@ function movemand() {
 }
 
 function drawmand() {
-    ctx.drawImage(mandImg, mand.x, mand.y, mand.width, mand.height);
+    context.drawImage(mandImg, mand.x, mand.y, mand.width, mand.height);
 }
 
 function drawappel() {
-    ctx.drawImage(appelImg, appel.x, appel.y, appel.size, appel.size);
+    context.drawImage(appelImg, appel.x, appel.y, appel.size, appel.size);
 }
 
 function moveappel() {
@@ -73,7 +74,7 @@ function moveappel() {
         appel.x < mand.x + mand.width
     ) {
         score++;
-        if (score % speedIncreaseInterval === 0) {
+        if (score % speedVerhogen === 0) {
             appel.speed++;
         }
         resetappel();
@@ -91,19 +92,20 @@ function resetappel() {
 }
 
 function drawScore() {
-    ctx.font = '16px Arial';
-    ctx.fillStyle = '#0095DD';
-    ctx.fillText('Score: ' + score, 8, 40);
+    context.font = '16px Arial';
+    context.fillStyle = '#0095DD';
+    context.fillText('Score: ' + score, 8, 40);
+    context.fillText('Highscore: ' + highscore, 8, 60); // Toon de highscore
 }
 
 function drawTimeBar() {
     const barWidth = (remainingTime / maxTime) * timeBarWidth;
-    ctx.fillStyle = 'green';
-    ctx.fillRect(10, 10, barWidth, timeBarHeight);
+    context.fillStyle = 'green';
+    context.fillRect(10, 10, barWidth, timeBarHeight);
 }
 
 function clearCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function update() {
@@ -154,13 +156,18 @@ function toonMelding(bericht) {
     document.body.appendChild(meldingElement);
   
     startConfetti();
+
+    if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('highscore', highscore);
+    }
   
     setTimeout(() => {
       meldingElement.remove();
     }, 6000);
-  }
+}
   
-  function startConfetti() {
+function startConfetti() {
     const colors = ['#FF69B4', '#FFC0CB', '#FFD700', '#32CD32', '#1E90FF']; // Roze, goud, groen, blauw
     for (let i = 0; i < 100; i++) {
         let confetti = document.createElement('div');
@@ -173,4 +180,3 @@ function toonMelding(bericht) {
         setTimeout(() => confetti.remove(), 6000);
     }
 }
-
